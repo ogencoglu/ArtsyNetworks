@@ -139,7 +139,7 @@ def deprocess(x, means):
 
 if __name__ == '__main__':
 
-    IMAGE_W = 600
+    IMAGE_W = 900
     
     # build VGG net and load weights (unpickle form VGGnet)
     net = initialize_network(IMAGE_W)
@@ -229,5 +229,5 @@ if __name__ == '__main__':
     plt.savefig('progress.png')
     
     plt.figure(figsize=(8,8))
-    plt.imshow(deprocess(xs[-1]), interpolation='nearest')
+    plt.imshow(deprocess(xs[-1], means), interpolation='nearest')
     plt.savefig('neural_painting.png')
