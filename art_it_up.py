@@ -1,15 +1,21 @@
-import lasagne
+'''
+Contact        : oguzhan.gencoglu@tut.fi
+'''
+
+import sys
 import numpy as np
 import pickle
 import skimage.transform
 import scipy
 import theano
 import theano.tensor as T
-from lasagne.utils import floatX
 import matplotlib.pyplot as plt
+import lasagne
+from lasagne.utils import floatX
 from lasagne.layers import InputLayer
 from lasagne.layers.dnn import Conv2DDNNLayer as ConvLayer
 from lasagne.layers import Pool2DLayer as PoolLayer
+
 
 def initialize_network(width):
     # initialize network - VGG19 style
@@ -53,7 +59,7 @@ def prepare_image(img, width, means):
     else:
         img = skimage.transform.resize(img, (h*width/w, width), preserve_range=True)
 
-    # central crop
+    # crop the center
     h, w, _ = img.shape
     img = img[h//2 - width//2:h//2 + width//2, w//2 - width//2:w//2 + width//2]
     
@@ -70,6 +76,20 @@ def prepare_image(img, width, means):
     
     return rawim, floatX(img[np.newaxis])
     
+    
+def precompute_activations(layers, base, style):
+    # layer activations are precomputed here
+    
+    input_im_theano = T.tensor4()
+    outputs = lasagne.layers.get_output(layers.values(), input_im_theano)
+    
+    photo_feat = {k: theano.shared(output.eval({input_im_theano: base}))
+                    for k, output in zip(layers.keys(), outputs)}
+    art_feat = {k: theano.shared(output.eval({input_im_theano: style}))
+                    for k, output in zip(layers.keys(), outputs)}
+                    
+    return photo_feat, art_feat
+    
 
 def gram_mat(vecs):
     # theano gram matrix
@@ -81,6 +101,7 @@ def gram_mat(vecs):
 
 
 def content_loss(X, Y, layer):
+    # loss function for content
     
     loss = 1./2 * ((Y[layer] - X[layer])**2).sum()
     
@@ -88,6 +109,7 @@ def content_loss(X, Y, layer):
 
 
 def style_loss(X, Y, layer):
+    # loss function for style
     
     x = X[layer]
     y = Y[layer]
@@ -100,7 +122,8 @@ def style_loss(X, Y, layer):
     return loss
     
     
-def total_variation_loss(x, k):
+def tv_loss(x, k):
+    # total variation loss for hf noise reduction
     
     rev = x[:,:,:-1,:-1]
     
@@ -111,7 +134,7 @@ def eval_loss(x0, width):
     # Helper function to interface with scipy.optimize
     
     x0 = floatX(x0.reshape((1, 3, width, width)))
-    generated_image.set_value(x0)
+    generated.set_value(x0)
     
     return f_loss().astype('float64')
     
@@ -119,12 +142,13 @@ def eval_grad(x0, width):
     # Helper function to interface with scipy.optimize
     
     x0 = floatX(x0.reshape((1, 3, width, width)))
-    generated_image.set_value(x0)
+    generated.set_value(x0)
     
     return np.array(f_grad()).flatten().astype('float64')
     
     
-def deprocess(x, means):
+def roll_back(x, means):
+    # roll back the changes
     
     x = np.copy(x[0])
     x = x + means
@@ -138,96 +162,80 @@ def deprocess(x, means):
     
 
 if __name__ == '__main__':
+    
+    photo_path = sys.argv[1]
+    art_path = sys.argv[2]
 
-    IMAGE_W = 900
+    IMAGE_W = 750
     
     # build VGG net and load weights (unpickle form VGGnet)
     net = initialize_network(IMAGE_W)
     values = pickle.load(open('vgg19_normalized.pkl', 'rb'))['param values']
     lasagne.layers.set_all_param_values(net['pool5'], values)
     
-    photo = plt.imread('tietotalo.jpg')
+    if sys.platform == 'win32':
+        photo = plt.imread(photo_path)
+        art = plt.imread(art_path)
+    else:
+        photo = plt.imread(photo_path)
+        art = plt.imread(art_path)
     means = np.mean(np.mean(photo, axis=1), axis=0).reshape((3,1,1))
     rawim, photo = prepare_image(photo, IMAGE_W, means)
-    plt.imshow(rawim)
+    rawim, art = prepare_image(art, IMAGE_W, means) 
     
-
-    art = plt.imread('the_starry_night.jpg')
-    rawim, art = prepare_image(art, IMAGE_W, means)
-    plt.imshow(rawim)
-    
-    
+    # precompute layer activations
     layers = ['conv4_2', 'conv1_1', 'conv2_1', 'conv3_1', 'conv4_1', 'conv5_1']
     layers = {k: net[k] for k in layers}
-    
-    
-    # Precompute layer activations for photo and artwork
-    input_im_theano = T.tensor4()
-    outputs = lasagne.layers.get_output(layers.values(), input_im_theano)
-    
-    photo_features = {k: theano.shared(output.eval({input_im_theano: photo}))
-                    for k, output in zip(layers.keys(), outputs)}
-    art_features = {k: theano.shared(output.eval({input_im_theano: art}))
-                    for k, output in zip(layers.keys(), outputs)}
+    photo_features, art_features = precompute_activations(layers, photo, art)
                     
     # Get expressions for layer activations for generated image
-    generated_image = theano.shared(floatX(np.random.uniform(-128, 128, (1, 3, IMAGE_W, IMAGE_W))))
+    lim = 128
+    generated = theano.shared(floatX(np.random.uniform(-1*lim, lim, (1, 3, IMAGE_W, IMAGE_W))))
     
-    gen_features = lasagne.layers.get_output(layers.values(), generated_image)
+    gen_features = lasagne.layers.get_output(layers.values(), generated)
     gen_features = {k: v for k, v in zip(layers.keys(), gen_features)}
     
-    # Define loss function
+    # define loss functions
     losses = []
-    
-    # content loss
     cl_scalar = 0.001
     losses.append(cl_scalar * content_loss(photo_features, gen_features, 'conv4_2'))
-    
-    # style loss
     sl_scalar = 2e5
     losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv1_1'))
     losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv2_1'))
     losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv3_1'))
     losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv4_1'))
     losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv5_1'))
-    
-    # total variation penalty
     tv_scalar = 1e-8
-    tv_k = 1.25
-    losses.append(tv_scalar * total_variation_loss(generated_image, tv_k))
-    
+    tv_pow = 1.25
+    losses.append(tv_scalar * tv_loss(generated, tv_pow))
     total_loss = sum(losses)
-    
-    grad = T.grad(total_loss, generated_image)
-    
-    # Theano functions to evaluate loss and gradient
+    grad = T.grad(total_loss, generated)
     f_loss = theano.function([], total_loss)
     f_grad = theano.function([], grad)
         
-    # Initialize with a noise image
-    lim = 128
-    generated_image.set_value(floatX(np.random.uniform(-1*lim, lim, (1, 3, IMAGE_W, IMAGE_W))))
-    
-    x0 = generated_image.get_value().astype('float64')
+    # start from random noise
+    generated.set_value(floatX(np.random.uniform(-1*lim, lim, (1, 3, IMAGE_W, IMAGE_W))))
+    x0 = generated.get_value().astype('float64')
     xs = []
     xs.append(x0)
     
-    # Optimize, saving the result periodically
-    for i in range(8):
+    # optimize, saving the result periodically
+    iters = 8
+    for i in range(iters):
         print(i)
         scipy.optimize.fmin_l_bfgs_b(eval_loss, x0.flatten(), fprime=eval_grad, args=(IMAGE_W,), maxfun=50)
-        x0 = generated_image.get_value().astype('float64')
+        x0 = generated.get_value().astype('float64')
         xs.append(x0)
         
     plt.figure(figsize=(12,12))
-    for i in range(9):
-        plt.subplot(3, 3, i+1)
+    for i in range(iters):
+        plt.subplot(3, 4, i+1)
         plt.gca().xaxis.set_visible(False)    
         plt.gca().yaxis.set_visible(False)    
-        plt.imshow(deprocess(xs[i], means))
+        plt.imshow(roll_back(xs[i], means))
     plt.tight_layout()
     plt.savefig('progress.png')
     
     plt.figure(figsize=(8,8))
-    plt.imshow(deprocess(xs[-1], means), interpolation='nearest')
+    plt.imshow(roll_back(xs[-1], means), interpolation='nearest')
     plt.savefig('neural_painting.png')
