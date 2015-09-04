@@ -100,7 +100,7 @@ Base image (Me):
 <br>
 <br>
 
-Style image (The Scream - Munch):
+Style image (La Liberté guidant le peuple - Delacroix):
 <br>
 <a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/romanticism.jpg" align="left"  width="240" ></a>
 
