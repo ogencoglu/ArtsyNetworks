@@ -166,7 +166,7 @@ if __name__ == '__main__':
     photo_path = sys.argv[1]
     art_path = sys.argv[2]
 
-    IMAGE_W = 750
+    IMAGE_W = 500
     
     # build VGG net and load weights (unpickle form VGGnet)
     net = initialize_network(IMAGE_W)
@@ -179,6 +179,10 @@ if __name__ == '__main__':
     else:
         photo = plt.imread(photo_path)
         art = plt.imread(art_path)
+    if(len(photo.shape)==2):
+        photo = np.dstack((photo, photo, photo))
+    if(art.shape[2]==4):
+        art = art[:,:,0:3]
     means = np.mean(np.mean(photo, axis=1), axis=0).reshape((3,1,1))
     rawim, photo = prepare_image(photo, IMAGE_W, means)
     rawim, art = prepare_image(art, IMAGE_W, means) 
