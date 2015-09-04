@@ -78,5 +78,7 @@ Style image (The Scream - Munch):
 <br>
 <br>
 <br>
+<br>
+<br>
 Result:
 <a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting_ouz.png" align="left"  width="240" ></a>
