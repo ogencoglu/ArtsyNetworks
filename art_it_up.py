@@ -138,6 +138,26 @@ def eval_loss(x0, width):
     
     return f_loss().astype('float64')
     
+    
+def define_global_loss(photo_features, gen_features, art_features, cl_scalar, sl_scalar, tv_scalar, tv_pow):
+    # define total loss
+    
+    losses = []
+    losses.append(cl_scalar * content_loss(photo_features, gen_features, 'conv4_2'))
+    losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv1_1'))
+    losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv2_1'))
+    losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv3_1'))
+    losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv4_1'))
+    losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv5_1'))
+    losses.append(tv_scalar * tv_loss(generated, tv_pow))
+    total_loss = sum(losses)
+    grad = T.grad(total_loss, generated)
+    f_loss = theano.function([], total_loss)
+    f_grad = theano.function([], grad)
+    
+    return f_loss, f_grad
+    
+    
 def eval_grad(x0, width):
     # Helper function to interface with scipy.optimize
     
@@ -196,22 +216,7 @@ if __name__ == '__main__':
     gen_features = {k: v for k, v in zip(layers.keys(), gen_features)}
     
     # define loss functions
-    losses = []
-    cl_scalar = 0.001
-    losses.append(cl_scalar * content_loss(photo_features, gen_features, 'conv4_2'))
-    sl_scalar = 2e5
-    losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv1_1'))
-    losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv2_1'))
-    losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv3_1'))
-    losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv4_1'))
-    losses.append(sl_scalar * style_loss(art_features, gen_features, 'conv5_1'))
-    tv_scalar = 1e-8
-    tv_pow = 1.25
-    losses.append(tv_scalar * tv_loss(generated, tv_pow))
-    total_loss = sum(losses)
-    grad = T.grad(total_loss, generated)
-    f_loss = theano.function([], total_loss)
-    f_grad = theano.function([], grad)
+    f_loss, f_grad = define_global_loss(photo_features, gen_features, art_features, cl_scalar = 0.001, sl_scalar = 2e5, tv_scalar = 1e-8, tv_pow = 1.25)
         
     # start from random noise
     generated.set_value(floatX(np.random.uniform(-1*lim, lim, (1, 3, IMAGE_W, IMAGE_W))))
