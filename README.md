@@ -97,7 +97,8 @@ Base image (Me):
 <br>
 <a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/sakalli_small.jpg" align="left" width="240" ></a>
 <br>
-
+<br>
+<br>
 
 Style image (The Scream - Munch):
 <br>
