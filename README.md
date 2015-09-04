@@ -5,7 +5,7 @@ Deep Learning + Arts = ArtsyNetworks
 and recombine content and style of arbitrary images, providing a neural
 algorithm for the creation of artistic images.* - Gatys et al.
 
-This is an humble attempt to implement the algorithm described in [http://arxiv.org/abs/1508.06576](http://arxiv.org/abs/1508.06576>) by Gatys, Ecker and Bethge (first submitted on 26 August 2015). The code is inspired by *Lasagne Recipe* - [styletransfer](https://github.com/Lasagne/Recipes/blob/master/examples/styletransfer/Art%20Style%20Transfer.ipynb), yet has several modifications.
+This is an humble attempt to implement the algorithm described in [http://arxiv.org/abs/1508.06576](http://arxiv.org/abs/1508.06576>) by Gatys, Ecker and Bethge (first submitted on 26 August 2015). The code is inspired by *Lasagne Recipe* - styletransfer, yet has several modifications.
 The pretrained network is downloaded from [https://s3.amazonaws.com/lasagne/recipes/pretrained/imagenet/vgg19_normalized.pkl](https://s3.amazonaws.com/lasagne/recipes/pretrained/imagenet/vgg19_normalized.pkl) .
 
 Dependencies:
@@ -82,3 +82,9 @@ Style image (The Scream - Munch):
 <br>
 Result:
 <a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting_ouz.png" align="left"  width="240" ></a>
+
+
+## Contact
+oguzhan.gencoglu@tut.fi
+
+License: MIT

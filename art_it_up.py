@@ -173,12 +173,8 @@ if __name__ == '__main__':
     values = pickle.load(open('vgg19_normalized.pkl', 'rb'))['param values']
     lasagne.layers.set_all_param_values(net['pool5'], values)
     
-    if sys.platform == 'win32':
-        photo = plt.imread(photo_path)
-        art = plt.imread(art_path)
-    else:
-        photo = plt.imread(photo_path)
-        art = plt.imread(art_path)
+    photo = plt.imread(photo_path)
+    art = plt.imread(art_path)
     if(len(photo.shape)==2):
         photo = np.dstack((photo, photo, photo))
     if(art.shape[2]==4):
@@ -227,7 +223,7 @@ if __name__ == '__main__':
     iters = 8
     for i in range(iters):
         print(i)
-        scipy.optimize.fmin_l_bfgs_b(eval_loss, x0.flatten(), fprime=eval_grad, args=(IMAGE_W,), maxfun=50)
+        scipy.optimize.fmin_l_bfgs_b(eval_loss, x0.flatten(), fprime=eval_grad, args=(IMAGE_W,), maxfun=40)
         x0 = generated.get_value().astype('float64')
         xs.append(x0)
         
