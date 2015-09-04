@@ -40,16 +40,16 @@ Examples
 
 Base image (Tietotalo - TTY):
 <br>
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/tietotalo.JPG" align="left" width="250" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/tietotalo.JPG" align="left" width="240" ></a>
 <br>
 
 
 Style image (The Starry Night - Van Gogh):
 <br>
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/the_starry_night.jpg" align="left"  width="250" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/the_starry_night.jpg" align="left"  width="240" ></a>
 
 
 <br>
 Result:
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting.png" align="left"  width="250" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting.png" align="left"  width="240" ></a>
 
