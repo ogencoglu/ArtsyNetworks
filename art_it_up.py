@@ -186,7 +186,7 @@ if __name__ == '__main__':
     photo_path = sys.argv[1]
     art_path = sys.argv[2]
 
-    IMAGE_W = 500
+    IMAGE_W = 750
     
     # build VGG net and load weights (unpickle form VGGnet)
     net = initialize_network(IMAGE_W)
