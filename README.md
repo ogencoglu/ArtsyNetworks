@@ -40,18 +40,18 @@ Examples
 
 Base image (Tietotalo - TTY):
 <br>
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/tietotalo.JPG" align="left" width="230" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/tietotalo.JPG" align="left" width="200" ></a>
 <br>
 
 
 Style image (The Starry Night - Van Gogh):
 <br>
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/the_starry_night.jpg" align="left"  width="230" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/the_starry_night.jpg" align="left"  width="200" ></a>
 
 
 <br>
 Result:
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting.png" align="left"  width="230" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting.png" align="left"  width="200" ></a>
 
 <br>
 <br>
@@ -65,13 +65,13 @@ Result:
 
 Base image (Me):
 <br>
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/sakalli_small.jpg" align="left" width="230" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/sakalli_small.jpg" align="left" width="200" ></a>
 <br>
 
 
 Style image (The Scream - Munch):
 <br>
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/scream.jpg" align="left"  width="230" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/scream.jpg" align="left"  width="200" ></a>
 
 
 <br>
@@ -81,7 +81,7 @@ Style image (The Scream - Munch):
 <br>
 <br>
 Result:
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting_ouz.png" align="left"  width="230" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting_ouz.png" align="left"  width="200" ></a>
 
 <br>
 <br>
@@ -95,20 +95,20 @@ Result:
 
 Base image (Me):
 <br>
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/sakalli_small.jpg" align="left" width="230" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/sakalli_small.jpg" align="left" width="200" ></a>
 <br>
 <br>
 <br>
 
 Style image (La Liberté guidant le peuple - Delacroix):
 <br>
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/romanticism.jpg" align="left"  width="230" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/romanticism.jpg" align="left"  width="200" ></a>
 
 
 <br>
 <br>
 Result:
-<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting_romanticism.png" align="left"  width="230" ></a>
+<a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting_romanticism.png" align="left"  width="200" ></a>
 
 
 ## Contact
