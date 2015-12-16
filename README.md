@@ -51,6 +51,7 @@ Style image (The Starry Night - Van Gogh):
 
 <br>
 Result:
+<br>
 <a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting.png" align="left"  width="200" ></a>
 
 <br>
@@ -81,6 +82,7 @@ Style image (The Scream - Munch):
 <br>
 <br>
 Result:
+<br>
 <a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting_ouz.png" align="left"  width="200" ></a>
 
 <br>
@@ -100,7 +102,7 @@ Base image (Me):
 <br>
 <br>
 
-Style image (La Liberté guidant le peuple - Delacroix):
+Style image (La LibertÃ© guidant le peuple - Delacroix):
 <br>
 <a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/romanticism.jpg" align="left"  width="200" ></a>
 
@@ -108,9 +110,16 @@ Style image (La Liberté guidant le peuple - Delacroix):
 <br>
 <br>
 Result:
+<br>
 <a href="url"><img src="https://raw.githubusercontent.com/ogencoglu/ArtsyNetworks/master/images/neural_painting_romanticism.png" align="left"  width="200" ></a>
 
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 ## Contact
 oguzhan.gencoglu@tut.fi
 
